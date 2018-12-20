@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="icon-arrow">resources/images/global/icon-arrow.png</file>
+        <file alias="icon-close">resources/images/global/icon-close.svg</file>
+        <file>resources/images/global/icon.ico</file>
+        <file>resources/images/global/icon.jpg</file>
+        <file>resources/images/global/icon.rc</file>
+        <file alias="font">resources/fonts/default.ttf</file>
+        <file alias="style">resources/styles/default.qss</file>
+    </qresource>
+</RCC>
