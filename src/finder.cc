@@ -19,11 +19,11 @@ bool Finder::open_db()
     QFile file;
     if (file.exists(QStandardPaths::locate(QStandardPaths::HomeLocation,
                                            QString(),
-                                           QStandardPaths::LocateDirectory) + "/.cved/.db.sqlite")) {
+                                           QStandardPaths::LocateDirectory) + "/.cved/db.sqlite")) {
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(QStandardPaths::locate(QStandardPaths::HomeLocation,
                                                   QString(),
-                                                  QStandardPaths::LocateDirectory) + ".cved/.db.sqlite");
+                                                  QStandardPaths::LocateDirectory) + ".cved/db.sqlite");
         file.close();
     } else {
        return false;
@@ -41,8 +41,8 @@ void Finder::get_data(const QString &name, bool is_combo)
         if (is_combo) {
             query.prepare("SELECT name FROM data ORDER BY name DESC");
         } else {
-            query.prepare("SELECT description, author, image, target, size, status,"
-                          " network, options, containerized FROM data WHERE name=:name");
+            query.prepare("SELECT description, image, size, target, status, network,"
+                          " options, containerized FROM data WHERE name=:name");
             query.bindValue(":name", name);
         }
         if (query.exec()) {
@@ -58,7 +58,6 @@ void Finder::get_data(const QString &name, bool is_combo)
                     data.append(query.value(5).toString());
                     data.append(query.value(6).toString());
                     data.append(query.value(7).toString());
-                    data.append(query.value(8).toString());
                 }
             }
         }
