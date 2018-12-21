@@ -51,14 +51,13 @@ void Manager::set_data(const QStringList &data, bool is_combo)
         finder->get_data(name, false);
     } else {
         ui->label_description_data->setText(data.at(0) + "<br>");
-        ui->label_author_data->setText(data.at(1) + "<br>");
-        ui->label_image_data->setText("<a href=http://" + data.at(2) + " style=color:#c8c8c8; style=text-decoration:none>" + data.at(2) + "</a><br>");
-        ui->label_size_data->setText(data.at(4) + "<br>");
+        ui->label_image_data->setText(data.at(1) + "<br>");
+        ui->label_size_data->setText(data.at(2) + "<br>");
         ui->label_target_data->setText(data.at(3) + "<br>");
-        ui->label_status_data->setText(data.at(5) + "<br>");
-        network = data.at(6);
-        options = data.at(7);
-        if (data.at(8) == "true")
+        ui->label_status_data->setText(data.at(4) + "<br>");
+        network = data.at(5);
+        options = data.at(6);
+        if (data.at(7) == "true")
             is_containerized = true;
         ui->button_pull->setDisabled(true);
         ui->button_start->setDisabled(true);
