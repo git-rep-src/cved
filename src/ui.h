@@ -44,8 +44,6 @@ public:
     QComboBox *combo_cve;
     QLabel *label_description;
     QLabel *label_description_data;
-    QLabel *label_author;
-    QLabel *label_author_data;
     QLabel *label_image;
     QLabel *label_image_data;
     QLabel *label_size;
@@ -96,17 +94,6 @@ public:
         label_description_data->setWordWrap(true);
         label_description_data->setDisabled(true);
 
-        label_author = new QLabel(widget);
-        label_author->setFont(font);
-        label_author->setProperty("type", "title");
-        label_author->setMinimumHeight(33); // TODO: Percent
-        label_author->setText("AUTHOR<hr>");
-
-        label_author_data = new QLabel(widget);
-        label_author_data->setProperty("type", "data");
-        label_author_data->setMinimumHeight(33); // TODO: Percent
-        label_author_data->setDisabled(true);
-
         label_image = new QLabel(widget);
         label_image->setFont(font);
         label_image->setProperty("type", "title");
@@ -116,8 +103,7 @@ public:
         label_image_data = new QLabel(widget);
         label_image_data->setProperty("type", "data");
         label_image_data->setMinimumHeight(33); // TODO: Percent
-        label_image_data->setTextInteractionFlags(Qt::TextBrowserInteraction | Qt::TextSelectableByMouse);
-        label_image_data->setOpenExternalLinks(true);
+        label_image_data->setDisabled(true);
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
@@ -167,8 +153,6 @@ public:
         layout_labels->setMargin(0);
         layout_labels->addWidget(label_description);
         layout_labels->addWidget(label_description_data);
-        layout_labels->addWidget(label_author);
-        layout_labels->addWidget(label_author_data);
         layout_labels->addWidget(label_image);
         layout_labels->addWidget(label_image_data);
         layout_labels->addWidget(label_size);
