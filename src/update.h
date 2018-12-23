@@ -19,7 +19,7 @@ public:
 public slots:
     Ui::Update *get_ui() { return ui; }
 
-    void check();
+    void start();
 
 signals:
     void signal_finished();
@@ -27,8 +27,7 @@ signals:
 private:
     Ui::Update *ui;
 
-private slots:
-    void start();
+    Process *process;
 };
 
 #endif

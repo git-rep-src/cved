@@ -1,50 +1,35 @@
 #include "update.h"
 
+#include <QStandardPaths>
+
 Update::Update(QObject *parent) :
     QObject(parent),
-    ui(new Ui::Update)
+    ui(new Ui::Update),
+    process(NULL)
 {
     ui->setup();
-    connect(ui->button_start, SIGNAL(clicked()), this, SLOT(start()));
-    connect(ui->button_cancel, &QPushButton::clicked, [&] () {
-        emit signal_finished();
-    });
 }
 
 Update::~Update()
 {
+    if (process)
+        delete process;
     delete ui;
-}
-
-void Update::check()
-{
-    bool has_update = true;//
-
-    if (has_update) {
-       ui->label_message->setText("DATABASE UPDATE AVAILABLE");
-       ui->button_start->show();
-       ui->button_cancel->show();
-    } else {
-        emit signal_finished();
-    }
 }
 
 void Update::start()
 {
-    ui->label_message->setText("UPDATING...");
-    ui->button_start->hide();
-    ui->button_cancel->hide();
+    const QString command = "/bin/bash";
+    QStringList arguments;
+    arguments << "-c" << "git -C " + QStandardPaths::locate(QStandardPaths::HomeLocation,
+                                                            QString(),
+                                                            QStandardPaths::LocateDirectory) + "/.cved " + "pull";
 
-    bool update_ok = true;//
-
-    if (update_ok) {
+    process = new Process(this);
+    connect(process, &Process::signal_finished, [&] (int exit_code) {
+        Q_UNUSED(exit_code);
         emit signal_finished();
-    } else {
-        ui->button_ok->show();
-        ui->label_message->setText("UPDATE FAILED");
-        connect(ui->button_ok, &QPushButton::clicked, [&] () {
-            emit signal_finished();
-        });
-    }
+    });
+    process->start(command, arguments);
 }
 
