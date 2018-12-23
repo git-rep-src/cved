@@ -5,11 +5,13 @@ TEMPLATE = app
 
 SOURCES += src/main.cc \
            src/cved.cc \
+           src/update.cc \
            src/finder.cc \
            src/manager.cc \
            src/process.cc
 
 HEADERS  += src/cved.h \
+            src/update.h \
             src/finder.h \
             src/manager.h \
             src/process.h \
