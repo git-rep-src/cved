@@ -74,12 +74,14 @@ public:
     QComboBox *combo_cve;
     QLabel *label_description;
     QLabel *label_description_data;
-    QLabel *label_image;
-    QLabel *label_image_data;
+    QLabel *label_container;
+    QLabel *label_container_data;
     QLabel *label_size;
     QLabel *label_size_data;
     QLabel *label_target;
     QLabel *label_target_data;
+    QLabel *label_misc;
+    QLabel *label_misc_data;
     QLabel *label_status;
     QLabel *label_status_data;
     QLabel *label_network;
@@ -123,15 +125,15 @@ public:
         label_description_data->setMinimumHeight(33); // TODO: Percent
         label_description_data->setWordWrap(true);
 
-        label_image = new QLabel(widget);
-        label_image->setFont(font);
-        label_image->setProperty("type", "title");
-        label_image->setMinimumHeight(33); // TODO: Percent
-        label_image->setText("IMAGE<hr>");
+        label_container = new QLabel(widget);
+        label_container->setFont(font);
+        label_container->setProperty("type", "title");
+        label_container->setMinimumHeight(33); // TODO: Percent
+        label_container->setText("CONTAINER<hr>");
 
-        label_image_data = new QLabel(widget);
-        label_image_data->setProperty("type", "data");
-        label_image_data->setMinimumHeight(33); // TODO: Percent
+        label_container_data = new QLabel(widget);
+        label_container_data->setProperty("type", "data");
+        label_container_data->setMinimumHeight(33); // TODO: Percent
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
@@ -152,6 +154,16 @@ public:
         label_target_data = new QLabel(widget);
         label_target_data->setProperty("type", "data");
         label_target_data->setMinimumHeight(33); // TODO: Percent
+
+        label_misc = new QLabel(widget);
+        label_misc->setFont(font);
+        label_misc->setProperty("type", "title");
+        label_misc->setMinimumHeight(33); // TODO: Percent
+        label_misc->setText("MISC<hr>");
+
+        label_misc_data = new QLabel(widget);
+        label_misc_data->setProperty("type", "data");
+        label_misc_data->setMinimumHeight(33); // TODO: Percent
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
@@ -179,12 +191,14 @@ public:
         layout_labels->setMargin(0);
         layout_labels->addWidget(label_description);
         layout_labels->addWidget(label_description_data);
-        layout_labels->addWidget(label_image);
-        layout_labels->addWidget(label_image_data);
+        layout_labels->addWidget(label_container);
+        layout_labels->addWidget(label_container_data);
         layout_labels->addWidget(label_size);
         layout_labels->addWidget(label_size_data);
         layout_labels->addWidget(label_target);
         layout_labels->addWidget(label_target_data);
+        layout_labels->addWidget(label_misc);
+        layout_labels->addWidget(label_misc_data);
         layout_labels->addWidget(label_status);
         layout_labels->addWidget(label_status_data);
         layout_labels->addWidget(label_network);

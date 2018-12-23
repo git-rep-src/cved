@@ -59,12 +59,13 @@ void Manager::set_combo(const QStringList &data)
 void Manager::set_data(const QStringList &data)
 {
     ui->label_description_data->setText(data.at(0) + "<br>");
-    ui->label_image_data->setText(data.at(1) + "<br>");
+    ui->label_container_data->setText(data.at(1) + "<br>");
     ui->label_size_data->setText(data.at(2) + "<br>");
     ui->label_target_data->setText(data.at(3) + "<br>");
+    ui->label_misc_data->setText(data.at(4) + "<br>");
 
-    network = data.at(4);
-    options = data.at(5);
+    network = data.at(5);
+    options = data.at(6);
 
     set_status();
 }
