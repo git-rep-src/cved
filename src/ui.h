@@ -10,7 +10,6 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QGridLayout>
 
 #include <QApplication>
 
@@ -42,10 +41,7 @@ class Ui_Update
 public:
     QWidget *widget;
     QLabel *label_message;
-    QPushButton *button_ok;
-    QPushButton *button_start;
-    QPushButton *button_cancel;
-    QGridLayout *layout;
+    QVBoxLayout *layout;
 
     void setup()
     {
@@ -59,36 +55,12 @@ public:
         label_message->setFont(font);
         label_message->setProperty("type", "data-light");
         label_message->setMinimumHeight(30); // TODO: Percent
-        label_message->setText("CHECKING FOR DATABASE UPDATES...");
+        label_message->setText("UPDATING DATABASE...");
 
-        button_start = new QPushButton(widget);
-        button_start->setFont(font);
-        button_start->setMinimumHeight(30); // TODO: Percent
-        button_start->setFlat(true);
-        button_start->setText("UPDATE");
-        button_start->setHidden(true);
-
-        button_cancel = new QPushButton(widget);
-        button_cancel->setFont(font);
-        button_cancel->setMinimumHeight(30); // TODO: Percent
-        button_cancel->setFlat(true);
-        button_cancel->setText("CANCEL");
-        button_cancel->setHidden(true);
-
-        button_ok = new QPushButton(widget);
-        button_ok->setFont(font);
-        button_ok->setMinimumHeight(30); // TODO: Percent
-        button_ok->setFlat(true);
-        button_ok->setText("OK");
-        button_ok->setHidden(true);
-
-        layout = new QGridLayout(widget);
+        layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(0);
-        layout->addWidget(label_message, 0, 0, 1, 2);
-        layout->addWidget(button_start, 1, 0, 1, 1);
-        layout->addWidget(button_cancel, 1, 1, 1, 1);
-        layout->addWidget(button_ok, 2, 0, 1, 2);
+        layout->addWidget(label_message);
         layout->setAlignment(Qt::AlignCenter);
 
         widget->setLayout(layout);
