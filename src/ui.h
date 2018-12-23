@@ -16,7 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_Base
+class Ui_Cved
 {
 public:
     QWidget *widget;
@@ -31,7 +31,65 @@ public:
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(10); // TODO: Percent
-        layout->setAlignment(Qt::AlignTop);
+        layout->setAlignment(Qt::AlignCenter);
+
+        widget->setLayout(layout);
+    }
+};
+
+class Ui_Update
+{
+public:
+    QWidget *widget;
+    QLabel *label_message;
+    QPushButton *button_ok;
+    QPushButton *button_start;
+    QPushButton *button_cancel;
+    QGridLayout *layout;
+
+    void setup()
+    {
+        QFont font(":/font");
+        font.setPointSize(8); // TODO: Percent
+        font.setBold(true);
+
+        widget = new QWidget;
+
+        label_message = new QLabel(widget);
+        label_message->setFont(font);
+        label_message->setProperty("type", "data-light");
+        label_message->setMinimumHeight(30); // TODO: Percent
+        label_message->setText("CHECKING FOR DATABASE UPDATES...");
+
+        button_start = new QPushButton(widget);
+        button_start->setFont(font);
+        button_start->setMinimumHeight(30); // TODO: Percent
+        button_start->setFlat(true);
+        button_start->setText("UPDATE");
+        button_start->setHidden(true);
+
+        button_cancel = new QPushButton(widget);
+        button_cancel->setFont(font);
+        button_cancel->setMinimumHeight(30); // TODO: Percent
+        button_cancel->setFlat(true);
+        button_cancel->setText("CANCEL");
+        button_cancel->setHidden(true);
+
+        button_ok = new QPushButton(widget);
+        button_ok->setFont(font);
+        button_ok->setMinimumHeight(30); // TODO: Percent
+        button_ok->setFlat(true);
+        button_ok->setText("OK");
+        button_ok->setHidden(true);
+
+        layout = new QGridLayout(widget);
+        layout->setSpacing(0);
+        layout->setMargin(0);
+        layout->addWidget(label_message, 0, 0, 1, 2);
+        layout->addWidget(button_start, 1, 0, 1, 1);
+        layout->addWidget(button_cancel, 1, 1, 1, 1);
+        layout->addWidget(button_ok, 2, 0, 1, 2);
+        layout->setAlignment(Qt::AlignCenter);
 
         widget->setLayout(layout);
     }
@@ -92,7 +150,6 @@ public:
         label_description_data->setProperty("type", "data");
         label_description_data->setMinimumHeight(33); // TODO: Percent
         label_description_data->setWordWrap(true);
-        label_description_data->setDisabled(true);
 
         label_image = new QLabel(widget);
         label_image->setFont(font);
@@ -103,7 +160,6 @@ public:
         label_image_data = new QLabel(widget);
         label_image_data->setProperty("type", "data");
         label_image_data->setMinimumHeight(33); // TODO: Percent
-        label_image_data->setDisabled(true);
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
@@ -114,7 +170,6 @@ public:
         label_size_data = new QLabel(widget);
         label_size_data->setProperty("type", "data");
         label_size_data->setMinimumHeight(33); // TODO: Percent
-        label_size_data->setDisabled(true);
 
         label_target = new QLabel(widget);
         label_target->setFont(font);
@@ -125,7 +180,6 @@ public:
         label_target_data = new QLabel(widget);
         label_target_data->setProperty("type", "data");
         label_target_data->setMinimumHeight(33); // TODO: Percent
-        label_target_data->setDisabled(true);
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
@@ -135,7 +189,7 @@ public:
 
         label_status_data = new QLabel(widget);
         label_status_data->setFont(font);
-        label_status_data->setProperty("type", "data");
+        label_status_data->setProperty("type", "data-light");
         label_status_data->setMinimumHeight(33); // TODO: Percent
 
         label_network = new QLabel(widget);
@@ -146,7 +200,7 @@ public:
 
         label_network_data = new QLabel(widget);
         label_network_data->setFont(font);
-        label_network_data->setProperty("type", "data");
+        label_network_data->setProperty("type", "data-light");
 
         layout_labels = new QVBoxLayout;
         layout_labels->setSpacing(0);
@@ -221,7 +275,8 @@ public:
 };
 
 namespace Ui {
-    class Cved: public Ui_Base {};
+    class Cved: public Ui_Cved {};
+    class Update: public Ui_Update {};
     class Manager: public Ui_Manager {};
 }
 
