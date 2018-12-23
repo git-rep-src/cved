@@ -5,8 +5,9 @@ Manager::Manager(QObject *parent) :
     ui(new Ui::Manager),
     finder(NULL),
     process(NULL),
-    is_running(false),
-    is_containerized(false)
+    is_container(false),
+    is_running(false)
+
 {
     ui->setup();
 
@@ -16,17 +17,18 @@ Manager::Manager(QObject *parent) :
     connect(ui->button_delete, SIGNAL(clicked()), this, SLOT(docker_delete()));
 
     finder = new Finder(this);
-    connect(finder, &Finder::signal_send_data, [&] (const QStringList &data, bool is_combo) {
-        this->set_data(data, is_combo);
+    connect(finder, &Finder::signal_send_combo, [&] (const QStringList &data) {
+        this->set_combo(data);
     });
+    connect(finder, &Finder::signal_send_data, [&] (const QStringList &data) {
+        this->set_data(data);
+    });
+
     finder->get_data("", true);
 
     connect(ui->combo_cve, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentTextChanged), [&] {
         name = ui->combo_cve->currentText().toLower();
         finder->get_data(name, false);
-    });
-    connect(this, &Manager::signal_send_data, [&] (const QString &name, QString key, QString data) {
-        finder->set_data(name, key, data);
     });
 }
 
@@ -39,40 +41,61 @@ Manager::~Manager()
     delete ui;
 }
 
-void Manager::set_data(const QStringList &data, bool is_combo)
+void Manager::set_combo(const QStringList &data)
 {
-    if (is_combo) {
-        for (int i = 0; i < data.size(); i++) {
-            ui->combo_cve->addItem(data.at(i).toUpper());
-            ui->combo_cve->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
-        }
-        ui->combo_cve->setCurrentIndex(0);
-        name = data.at(0);
-        finder->get_data(name, false);
-    } else {
-        ui->label_description_data->setText(data.at(0) + "<br>");
-        ui->label_image_data->setText(data.at(1) + "<br>");
-        ui->label_size_data->setText(data.at(2) + "<br>");
-        ui->label_target_data->setText(data.at(3) + "<br>");
-        ui->label_status_data->setText(data.at(4) + "<br>");
-        network = data.at(5);
-        options = data.at(6);
-        if (data.at(7) == "true")
-            is_containerized = true;
-        ui->button_pull->setDisabled(true);
-        ui->button_start->setDisabled(true);
-        ui->button_stop->setDisabled(true);
-        ui->button_delete->setDisabled(true);
-        if (ui->label_status_data->text().contains("NULL")) {
+    name = data.at(0);
+
+    for (int i = 0; i < ui->combo_cve->count(); i++)
+        ui->combo_cve->removeItem(i);
+    for (int i = 0; i < data.size(); i++) {
+        ui->combo_cve->addItem(data.at(i).toUpper());
+        ui->combo_cve->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
+    }
+    ui->combo_cve->setCurrentIndex(0);
+
+    finder->get_data(name, false);
+}
+
+void Manager::set_data(const QStringList &data)
+{
+    ui->label_description_data->setText(data.at(0) + "<br>");
+    ui->label_image_data->setText(data.at(1) + "<br>");
+    ui->label_size_data->setText(data.at(2) + "<br>");
+    ui->label_target_data->setText(data.at(3) + "<br>");
+
+    network = data.at(4);
+    options = data.at(5);
+
+    set_status();
+}
+
+void Manager::set_status()
+{
+    arguments.clear();
+    arguments << "-c" << "docker images | grep " + name + " &>/dev/null";
+
+    process = new Process(this);
+    connect(process, &Process::signal_finished, [&] (int exit_code) {
+        if (exit_code == 0) {
+            ui->label_status_data->setText("STOPPED<br>");
+            ui->label_network_data->setText(network);
+            ui->button_pull->setDisabled(true);
+            ui->button_start->setEnabled(true);
+            ui->button_stop->setDisabled(true);
+            ui->button_delete->setEnabled(true);
+        } else {
+            ui->label_status_data->setText("NULL<br>");
             ui->label_network_data->setText("NULL");
             ui->button_pull->setEnabled(true);
-        } else {
-            ui->label_network_data->setText(network);
-            ui->button_start->setEnabled(true);
-            ui->button_delete->setEnabled(true);
+            ui->button_start->setDisabled(true);
+            ui->button_stop->setDisabled(true);
+            ui->button_delete->setDisabled(true);
         }
         ui->edit_output->clear();
-    }
+        process->deleteLater();
+        has_container();
+    });
+    process->start(command, arguments);
 }
 
 void Manager::docker_pull()
@@ -93,7 +116,6 @@ void Manager::docker_pull()
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
-            emit signal_send_data(name, "status", "STOPPED");
         } else {
             ui->label_status_data->setText("ERROR<br>");
             ui->button_pull->setEnabled(true);
@@ -114,7 +136,7 @@ void Manager::docker_pull()
 void Manager::docker_start()
 {
     arguments.clear();
-    if (is_containerized)
+    if (is_container)
         arguments << "-c" << "docker start " + name;
     else
         arguments << "-c" << "docker run --detach --name " + name + " " + options + " cved/" + name;
@@ -127,16 +149,15 @@ void Manager::docker_start()
         if (exit_code == 0) {
             ui->label_status_data->setText("RUNNING<br>");
             ui->label_network_data->setText(network);
-            is_containerized = true;
+            is_container = true;
             is_running = true;
-            emit signal_send_data(name, "containerized", "true");
         } else {
             ui->combo_cve->setEnabled(true);
             ui->label_status_data->setText("ERROR<br>");
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
-            is_containerized = false;
+            is_container = false;
             is_running = false;
         }
         process->deleteLater();
@@ -184,7 +205,7 @@ void Manager::docker_stop()
 void Manager::docker_delete()
 {
     arguments.clear();
-    if (is_containerized)
+    if (is_container)
         arguments << "-c" << "docker container rm " + name + " && docker rmi -f cved/" + name;
     else
         arguments << "-c" << "docker rmi -f cved/" + name;
@@ -200,9 +221,7 @@ void Manager::docker_delete()
         if (exit_code == 0) {
             ui->label_status_data->setText("NULL<br>");
             ui->button_pull->setEnabled(true);
-            is_containerized = false;
-            emit signal_send_data(name, "status", "NULL");
-            emit signal_send_data(name, "containerized", "false");
+            is_container = false;
         } else {
             ui->label_status_data->setText("ERROR<br>");
         }
@@ -213,4 +232,20 @@ void Manager::docker_delete()
     ui->button_start->setDisabled(true);
     ui->button_delete->setDisabled(true);
     ui->edit_output->clear();
+}
+
+void Manager::has_container()
+{
+    arguments.clear();
+    arguments << "-c" << "docker container ls -a --format '{{.Names}}' | grep " + name + " &>/dev/null";
+
+    process = new Process(this);
+    connect(process, &Process::signal_finished, [&] (int exit_code) {
+        if (exit_code == 0)
+            is_container = true;
+        else
+            is_container = false;
+        process->deleteLater();
+    });
+    process->start(command, arguments);
 }

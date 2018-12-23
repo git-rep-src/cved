@@ -20,17 +20,14 @@ public:
 public slots:
     Ui::Manager *get_ui() { return ui; }
 
-signals:
-    void signal_send_data(const QString &name, QString key, QString data);
-
 private:
     Ui::Manager *ui;
 
     Finder *finder;
     Process *process;
 
+    bool is_container;
     bool is_running;
-    bool is_containerized;
 
     QString name;
     QString network;
@@ -39,11 +36,14 @@ private:
     QStringList arguments;
 
 private slots:
-    void set_data(const QStringList &data, bool is_combo);
+    void set_combo(const QStringList &data);
+    void set_data(const QStringList &data);
+    void set_status();
     void docker_pull();
     void docker_start();
     void docker_stop();
     void docker_delete();
+    void has_container();
 };
 
 #endif
