@@ -1,5 +1,7 @@
 #include "cved.h"
 
+#include <QDebug>//
+
 Cved::Cved() :
     ui(new Ui::Cved),
     update(NULL),
@@ -8,21 +10,21 @@ Cved::Cved() :
     ui->setup();
     ui->widget->showFullScreen();
 
-//    update = new Update(this);
-//    connect(update, &Update::signal_finished, [&] () {
-//        ui->layout->removeWidget(update->get_ui()->widget);
-//        delete update->get_ui()->widget;
-//        delete update;
-//        manager = new Manager(this);
-//        ui->layout->addWidget(manager->get_ui()->widget);
-//    });
-
-//    ui->layout->addWidget(update->get_ui()->widget);
-
-//    update->check();
-
-    manager = new Manager(this);//
-    ui->layout->addWidget(manager->get_ui()->widget);//
+    if (qApp->arguments().contains("-n") || qApp->arguments().contains("--no-update")) {
+        manager = new Manager(this);
+        ui->layout->addWidget(manager->get_ui()->widget);
+    } else {
+        update = new Update(this);
+        connect(update, &Update::signal_finished, [&] () {
+            ui->layout->removeWidget(update->get_ui()->widget);
+            delete update->get_ui()->widget;
+            delete update;
+            manager = new Manager(this);
+            ui->layout->addWidget(manager->get_ui()->widget);
+        });
+        ui->layout->addWidget(update->get_ui()->widget);
+        update->start();
+    }
 }
 
 Cved::~Cved()
