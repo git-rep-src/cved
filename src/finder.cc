@@ -41,8 +41,7 @@ void Finder::get_data(const QString &name, bool is_combo)
         if (is_combo) {
             query.prepare("SELECT name FROM data ORDER BY name DESC");
         } else {
-            query.prepare("SELECT description, image, size, target, status, network,"
-                          " options, containerized FROM data WHERE name=:name");
+            query.prepare("SELECT description, image, size, target, network, options FROM data WHERE name=:name");
             query.bindValue(":name", name);
         }
         if (query.exec()) {
@@ -56,8 +55,6 @@ void Finder::get_data(const QString &name, bool is_combo)
                     data.append(query.value(3).toString());
                     data.append(query.value(4).toString());
                     data.append(query.value(5).toString());
-                    data.append(query.value(6).toString());
-                    data.append(query.value(7).toString());
                 }
             }
         }
@@ -66,19 +63,8 @@ void Finder::get_data(const QString &name, bool is_combo)
         // error
     }
 
-    emit signal_send_data(data, is_combo);
-}
-
-void Finder::set_data(const QString &name, QString key, QString data)
-{
-    if (db.open()) {
-        QSqlQuery query;
-        query.prepare(QString("UPDATE data SET %1=:data WHERE name=:name").arg(key));
-        query.bindValue(":data", data);
-        query.bindValue(":name", name);
-        query.exec();
-        db.close();
-    } else {
-        // error
-    }
+    if (is_combo)
+        emit signal_send_combo(data);
+    else
+        emit signal_send_data(data);
 }

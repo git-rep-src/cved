@@ -13,10 +13,10 @@ public:
 
 public slots:
     void get_data(const QString &name, bool is_combo);
-    void set_data(const QString &name, QString key, QString data);
 
 signals:
-    void signal_send_data(const QStringList &data, bool is_combo);
+    void signal_send_combo(const QStringList &data);
+    void signal_send_data(const QStringList &data);
 
 private:
     QSqlDatabase db;
