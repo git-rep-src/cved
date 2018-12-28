@@ -97,6 +97,12 @@ QPushButton:disabled {
     border-color: rgb(38, 41, 45);
 }
 
+QPushButton[type=close] {
+    color: rgb(165, 165, 165);
+    background-color: rgb(14, 19, 24);
+    border: 0;
+}
+
 QPlainTextEdit {
     color: rgb(165, 165, 165);
     background-color: rgb(17, 21, 27);
