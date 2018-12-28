@@ -8,11 +8,15 @@ Cved::Cved() :
     manager(NULL)
 {
     ui->setup();
-    ui->widget->showFullScreen();
+    connect(ui->button_close, &QPushButton::clicked, [&] () {
+        // TODO: detener docker si esta funcionando
+        exit(0);
+    });
 
     if (qApp->arguments().contains("-n") || qApp->arguments().contains("--no-update")) {
         manager = new Manager(this);
         ui->layout->addWidget(manager->get_ui()->widget);
+        ui->button_close->show();
     } else {
         update = new Update(this);
         connect(update, &Update::signal_finished, [&] () {
@@ -21,10 +25,13 @@ Cved::Cved() :
             delete update;
             manager = new Manager(this);
             ui->layout->addWidget(manager->get_ui()->widget);
+            ui->button_close->show();
         });
         ui->layout->addWidget(update->get_ui()->widget);
         update->start();
     }
+
+    ui->widget->showFullScreen();
 }
 
 Cved::~Cved()
