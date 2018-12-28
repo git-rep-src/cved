@@ -19,6 +19,7 @@ class Ui_Cved
 {
 public:
     QWidget *widget;
+    QPushButton *button_close;
     QVBoxLayout *layout;
 
     void setup()
@@ -27,6 +28,13 @@ public:
         widget->setMaximumSize(QSize(1600, 900)); // TODO: Percent
         widget->setWindowFlags(Qt::CustomizeWindowHint);
         
+        button_close = new QPushButton(widget);
+        button_close->setProperty("type", "close");
+        button_close->setGeometry(1590, 0, 10, 10); // TODO: Percent
+        button_close->setFlat(true);
+        button_close->setText("x");
+        button_close->setHidden(true);
+
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(10); // TODO: Percent
