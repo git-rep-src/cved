@@ -5,9 +5,7 @@ Manager::Manager(QObject *parent) :
     ui(new Ui::Manager),
     finder(NULL),
     process(NULL),
-    is_container(false),
     is_running(false)
-
 {
     ui->setup();
 
@@ -94,7 +92,6 @@ void Manager::set_status()
         }
         ui->edit_output->clear();
         process->deleteLater();
-        has_container();
     });
     process->start(command, arguments);
 }
@@ -109,7 +106,7 @@ void Manager::docker_pull()
         ui->edit_output->appendPlainText(str);
     });
     connect(process, &Process::signal_send_stderr, [&] (QString str) {
-        ui->edit_output->appendPlainText(str);
+        ui->edit_output->appendHtml("<span style=color:#851111>" + str + "</span>");
     });
     connect(process, &Process::signal_finished, [&] (int exit_code) {
         if (exit_code == 0) {
@@ -118,7 +115,7 @@ void Manager::docker_pull()
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
         } else {
-            ui->label_status_data->setText("ERROR<br>");
+            ui->label_status_data->setText("PULL FAILED<br>");
             ui->button_pull->setEnabled(true);
             ui->button_stop->setDisabled(true);
         }
@@ -137,28 +134,26 @@ void Manager::docker_pull()
 void Manager::docker_start()
 {
     arguments.clear();
-    if (is_container)
-        arguments << "-c" << "docker start " + name;
-    else
-        arguments << "-c" << "docker run --detach --name " + name + " " + options + " cved/" + name;
+    arguments << "-c" << "docker run --rm --detach --name " + name + " " + options + " cved/" + name;
 
     process = new Process(this);
-    connect(process, &Process::signal_send_stderr, [&] (QString str) {
+    connect(process, &Process::signal_send_stdout, [&] (QString str) {
         ui->edit_output->appendPlainText(str);
+    });
+    connect(process, &Process::signal_send_stderr, [&] (QString str) {
+        ui->edit_output->appendHtml("<span style=color:#851111>" + str + "</span>");
     });
     connect(process, &Process::signal_finished, [&] (int exit_code) {
         if (exit_code == 0) {
             ui->label_status_data->setText("RUNNING<br>");
             ui->label_network_data->setText(network);
-            is_container = true;
             is_running = true;
         } else {
             ui->combo_cve->setEnabled(true);
-            ui->label_status_data->setText("ERROR<br>");
+            ui->label_status_data->setText("START FAILED<br>");
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
-            is_container = false;
             is_running = false;
         }
         process->deleteLater();
@@ -178,8 +173,11 @@ void Manager::docker_stop()
         arguments.clear();
         arguments << "-c" << "docker stop " + name;
         process = new Process(this);
-        connect(process, &Process::signal_send_stderr, [&] (QString str) {
+        connect(process, &Process::signal_send_stdout, [&] (QString str) {
             ui->edit_output->appendPlainText(str);
+        });
+        connect(process, &Process::signal_send_stderr, [&] (QString str) {
+            ui->edit_output->appendHtml("<span style=color:#851111>" + str + "</span>");
         });
         connect(process, &Process::signal_finished, [&] (int exit_code) {
             if (exit_code == 0) {
@@ -191,7 +189,7 @@ void Manager::docker_stop()
                 ui->button_delete->setEnabled(true);
                 is_running = false;
             } else {
-                ui->label_status_data->setText("ERROR<br>");
+                ui->label_status_data->setText("STOP FAILED<br>");
             }
             process->deleteLater();
         });
@@ -206,25 +204,21 @@ void Manager::docker_stop()
 void Manager::docker_delete()
 {
     arguments.clear();
-    if (is_container)
-        arguments << "-c" << "docker container rm " + name + " && docker rmi -f cved/" + name;
-    else
-        arguments << "-c" << "docker rmi -f cved/" + name;
+    arguments << "-c" << "docker rmi -f cved/" + name;
 
     process = new Process(this);
     connect(process, &Process::signal_send_stdout, [&] (QString str) {
         ui->edit_output->appendPlainText(str);
     });
     connect(process, &Process::signal_send_stderr, [&] (QString str) {
-        ui->edit_output->appendPlainText(str);
+        ui->edit_output->appendHtml("<span style=color:#851111>" + str + "</span>");
     });
     connect(process, &Process::signal_finished, [&] (int exit_code) {
         if (exit_code == 0) {
             ui->label_status_data->setText("NULL<br>");
             ui->button_pull->setEnabled(true);
-            is_container = false;
         } else {
-            ui->label_status_data->setText("ERROR<br>");
+            ui->label_status_data->setText("DELETE FAILED<br>");
         }
         process->deleteLater();
     });
@@ -233,20 +227,4 @@ void Manager::docker_delete()
     ui->button_start->setDisabled(true);
     ui->button_delete->setDisabled(true);
     ui->edit_output->clear();
-}
-
-void Manager::has_container()
-{
-    arguments.clear();
-    arguments << "-c" << "docker container ls -a --format '{{.Names}}' | grep " + name + " &>/dev/null";
-
-    process = new Process(this);
-    connect(process, &Process::signal_finished, [&] (int exit_code) {
-        if (exit_code == 0)
-            is_container = true;
-        else
-            is_container = false;
-        process->deleteLater();
-    });
-    process->start(command, arguments);
 }

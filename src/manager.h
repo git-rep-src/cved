@@ -26,7 +26,6 @@ private:
     Finder *finder;
     Process *process;
 
-    bool is_container;
     bool is_running;
 
     QString name;
@@ -43,7 +42,6 @@ private slots:
     void docker_start();
     void docker_stop();
     void docker_delete();
-    void has_container();
 };
 
 #endif
