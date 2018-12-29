@@ -43,9 +43,10 @@ QComboBox QAbstractItemView::item {
     border-style: solid;
     border-color: rgb(38, 41, 45);
     min-height: 30px;
+    margin-top: 1px;
 }
 QListView::item:selected {
-    color: rgb(38, 41, 45);
+    color: rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
 }
 
@@ -61,7 +62,7 @@ QLabel[type=title]:disabled {
 }
 
 QLabel[type=data] {
-    color: rgb(200, 200, 200);
+    color: rgb(180, 180, 180);
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -83,7 +84,7 @@ QLabel[type=data-light]:disabled {
 }
 
 QPushButton {
-    color: rgb(38, 41, 45);
+    color: rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
     border-width: 1px;
     border-style: solid;
@@ -104,8 +105,10 @@ QPushButton[type=close] {
 }
 
 QPlainTextEdit {
-    color: rgb(165, 165, 165);
+    color: rgb(100, 100, 100);
     background-color: rgb(17, 21, 27);
-    border: 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(20, 20, 20);
     padding: 10px;
 }
