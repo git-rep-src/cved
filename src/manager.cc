@@ -115,7 +115,7 @@ void Manager::docker_pull()
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
         } else {
-            ui->label_status_data->setText("PULL FAILED<br>");
+            ui->label_status_data->setText("<span style=color:#851111>PULL FAILED</span><br>");
             ui->button_pull->setEnabled(true);
             ui->button_stop->setDisabled(true);
         }
@@ -150,7 +150,7 @@ void Manager::docker_start()
             is_running = true;
         } else {
             ui->combo_cve->setEnabled(true);
-            ui->label_status_data->setText("START FAILED<br>");
+            ui->label_status_data->setText("<span style=color:#851111>START FAILED</span><br>");
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
@@ -189,7 +189,7 @@ void Manager::docker_stop()
                 ui->button_delete->setEnabled(true);
                 is_running = false;
             } else {
-                ui->label_status_data->setText("STOP FAILED<br>");
+                ui->label_status_data->setText("<span style=color:#851111>STOP FAILED</span><br>");
             }
             process->deleteLater();
         });
@@ -218,7 +218,7 @@ void Manager::docker_delete()
             ui->label_status_data->setText("NULL<br>");
             ui->button_pull->setEnabled(true);
         } else {
-            ui->label_status_data->setText("DELETE FAILED<br>");
+            ui->label_status_data->setText("<span style=color:#851111>DELETE FAILED</span><br>");
         }
         process->deleteLater();
     });
