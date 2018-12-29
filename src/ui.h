@@ -262,6 +262,7 @@ public:
         layout->addLayout(layout_labels);
         layout->addSpacing(30);// TODO: Percent
         layout->addLayout(layout_buttons);
+        layout->addSpacing(5);// TODO: Percent
         layout->addWidget(edit_output);
 
         widget->setLayout(layout);
