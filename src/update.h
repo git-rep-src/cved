@@ -2,7 +2,6 @@
 #define UPDATE_H
 
 #include "ui.h"
-#include "process.h"
 
 namespace Ui {
 class Update;
@@ -26,8 +25,6 @@ signals:
 
 private:
     Ui::Update *ui;
-
-    Process *process;
 };
 
 #endif
