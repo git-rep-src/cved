@@ -3,7 +3,8 @@
 
 #include "ui.h"
 #include "finder.h"
-#include "process.h"
+
+#include <QProcess>
 
 namespace Ui {
 class Manager;
@@ -24,15 +25,15 @@ private:
     Ui::Manager *ui;
 
     Finder *finder;
-    Process *process;
 
-    bool is_running;
+    QProcess *process;
+
+    bool is_pulling;
+    bool is_pull_aborted;
 
     QString name;
     QString network;
-    const QString command = "/bin/bash";
     QString options;
-    QStringList arguments;
 
 private slots:
     void set_combo(const QStringList &data);
