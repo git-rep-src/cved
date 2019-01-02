@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
             qDebug() << "  -v, --version   output version information and exit";
             return 0;
         } else if ((strcmp("-v", argv[1]) == 0) || (strcmp("--version", argv[1]) == 0)) {
-            qDebug() << "0.1.0";
+            qDebug() << "0.1.1";
             return 0;
         }
     }
