@@ -1,7 +1,5 @@
 #include "cved.h"
 
-#include <QDebug>//
-
 Cved::Cved() :
     ui(new Ui::Cved),
     update(NULL),
@@ -9,7 +7,6 @@ Cved::Cved() :
 {
     ui->setup();
     connect(ui->button_close, &QPushButton::clicked, [&] () {
-        // TODO: detener docker si esta funcionando
         exit(0);
     });
 
