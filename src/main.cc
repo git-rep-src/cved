@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     if (argc == 2) {
         if ((strcmp("-h", argv[1]) == 0) || (strcmp("--help", argv[1]) == 0)) {
-            qDebug() << "CVE's Docker containers manager" << endl;
+            qDebug() << "Vulnerable docker containers manager (https://gitlab.com/git-rep/cved)." << endl;
             qDebug() << "Usage: cved [OPTION]" << endl;
             qDebug() << "Options:";
             qDebug() << "  -n, --no-update no update database";
