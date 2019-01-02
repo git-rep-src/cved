@@ -3,9 +3,6 @@
 Finder::Finder(QObject *parent) :
     QObject(parent)
 {
-    if (!open_db()) {
-        // error
-    }
 }
 
 Finder::~Finder()
@@ -16,17 +13,17 @@ Finder::~Finder()
 
 bool Finder::open_db()
 {
+    const QString home = QStandardPaths::locate(QStandardPaths::HomeLocation,
+                                                QString(),
+                                                QStandardPaths::LocateDirectory);
+
     QFile file;
-    if (file.exists(QStandardPaths::locate(QStandardPaths::HomeLocation,
-                                           QString(),
-                                           QStandardPaths::LocateDirectory) + "/.cved/db.sqlite")) {
+    if (file.exists(home + "/.cved/db.sqlite")) {
         db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName(QStandardPaths::locate(QStandardPaths::HomeLocation,
-                                                  QString(),
-                                                  QStandardPaths::LocateDirectory) + ".cved/db.sqlite");
+        db.setDatabaseName(home + ".cved/db.sqlite");
         file.close();
     } else {
-       return false;
+        return false;
     }
 
     return true;
@@ -58,14 +55,13 @@ void Finder::get_data(const QString &name, bool is_combo)
                     data.append(query.value(6).toString());
                 }
             }
+            if (data.size() != 0) {
+                if (is_combo)
+                    emit signal_send_combo(data);
+                else
+                    emit signal_send_data(data);
+            }
         }
         db.close();
-    } else {
-        // error
     }
-
-    if (is_combo)
-        emit signal_send_combo(data);
-    else
-        emit signal_send_data(data);
 }

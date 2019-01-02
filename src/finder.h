@@ -12,6 +12,7 @@ public:
     ~Finder();
 
 public slots:
+    bool open_db();
     void get_data(const QString &name, bool is_combo);
 
 signals:
@@ -20,9 +21,6 @@ signals:
 
 private:
     QSqlDatabase db;
-
-private slots:
-    bool open_db();
 };
 
 #endif
