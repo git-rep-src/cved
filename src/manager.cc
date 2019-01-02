@@ -128,11 +128,11 @@ void Manager::docker_pull()
         } else {
             if (is_pull_aborted) {
                 ui->set_property(ui->label_status_data, "label-data-failed");
-                ui->label_status_data->setText("PULL ABORTED");
+                ui->label_status_data->setText("ABORTED");
                 is_pull_aborted = false;
             } else {
                 ui->set_property(ui->label_status_data, "label-data-failed");
-                ui->label_status_data->setText("PULL FAILED");
+                ui->label_status_data->setText("FAILED");
             }
             ui->button_pull->setEnabled(true);
             ui->button_delete->setDisabled(true);
@@ -148,7 +148,7 @@ void Manager::docker_pull()
 
     ui->combo_cve->setDisabled(true);
     ui->set_property(ui->label_status_data, "label-data-pulling");
-    ui->label_status_data->setText("PULLING");
+    ui->label_status_data->setText("PULLING <span style=color:white>cved/" + name + "</span>");
     ui->button_pull->setDisabled(true);
     ui->button_delete->setText("ABORT");
     ui->button_delete->setEnabled(true);
@@ -174,7 +174,7 @@ void Manager::docker_start()
         } else {
             ui->combo_cve->setEnabled(true);
             ui->set_property(ui->label_status_data, "label-data-failed");
-            ui->label_status_data->setText("START FAILED");
+            ui->label_status_data->setText("FAILED");
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
@@ -211,7 +211,7 @@ void Manager::docker_stop()
             ui->button_delete->setEnabled(true);
         } else {
             ui->set_property(ui->label_status_data, "label-data-failed");
-            ui->label_status_data->setText("STOP FAILED");
+            ui->label_status_data->setText("FAILED");
         }
         process->deleteLater();
     });
@@ -243,7 +243,7 @@ void Manager::docker_delete()
                 ui->button_pull->setEnabled(true);
             } else {
                 ui->set_property(ui->label_status_data, "label-data-failed");
-                ui->label_status_data->setText("DELETE FAILED");
+                ui->label_status_data->setText("FAILED");
             }
             process->deleteLater();
         });
