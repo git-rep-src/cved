@@ -12,6 +12,7 @@
 #include <QVBoxLayout>
 
 #include <QApplication>
+#include <QDesktopWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -24,21 +25,23 @@ public:
 
     void setup()
     {
+        int sw = QApplication::desktop()->screenGeometry().width();
+        int sh = QApplication::desktop()->screenGeometry().height();
+
         widget = new QWidget;
-        widget->setMaximumSize(QSize(1600, 900)); // TODO: Percent
+        widget->setMaximumSize(QSize(int(sw / 1.2), int(sh / 1.2)));
         widget->setWindowFlags(Qt::CustomizeWindowHint);
         
         button_close = new QPushButton(widget);
-        button_close->setProperty("type", "close");
-        button_close->setGeometry(1590, 0, 10, 10); // TODO: Percent
+        button_close->setProperty("type", "button-close");
+        button_close->setGeometry((int(sw / 1.2) - (sw / 192)), 0, (sw / 192), (sh / 108));
         button_close->setFlat(true);
         button_close->setText("x");
         button_close->setHidden(true);
 
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
-        layout->setMargin(10); // TODO: Percent
-        layout->setAlignment(Qt::AlignCenter);
+        layout->setMargin(sw / 192);
 
         widget->setLayout(layout);
     }
@@ -53,23 +56,24 @@ public:
 
     void setup()
     {
+        int sw = QApplication::desktop()->screenGeometry().width();
+
         QFont font(":/font");
-        font.setPointSize(8); // TODO: Percent
+        font.setPointSize(sw / 240);
         font.setBold(true);
 
         widget = new QWidget;
 
         label_message = new QLabel(widget);
         label_message->setFont(font);
-        label_message->setProperty("type", "data-light");
-        label_message->setMinimumHeight(30); // TODO: Percent
-        label_message->setText("UPDATING DATABASE...");
+        label_message->setProperty("type", "label-update");
+        label_message->setText("UPDATING DATABASE");
 
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(0);
-        layout->addWidget(label_message);
         layout->setAlignment(Qt::AlignCenter);
+        layout->addWidget(label_message);
 
         widget->setLayout(layout);
     }
@@ -105,15 +109,18 @@ public:
 
     void setup()
     {
+        int sw = QApplication::desktop()->screenGeometry().width();
+        int sh = QApplication::desktop()->screenGeometry().height();
+
         QFont font(":/font");
-        font.setPointSize(8); // TODO: Percent
+        font.setPointSize(sw / 240);
         font.setBold(true);
 
         widget = new QWidget;
 
         combo_cve = new QComboBox(widget);
         combo_cve->setFont(font);
-        combo_cve->setMinimumHeight(33); // TODO: Percent
+        combo_cve->setMinimumHeight(int(sh / 32.7));
         combo_cve->setEditable(true);
         combo_cve->setView(new QListView());
         combo_cve->view()->setFont(font);
@@ -124,75 +131,76 @@ public:
 
         label_description = new QLabel(widget);
         label_description->setFont(font);
-        label_description->setProperty("type", "title");
-        label_description->setMinimumHeight(33); // TODO: Percent
-        label_description->setText("DESCRIPTION<hr>");
+        label_description->setProperty("type", "label-title");
+        label_description->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_description->setText("DESCRIPTION");
 
         label_description_data = new QLabel(widget);
-        label_description_data->setProperty("type", "data");
-        label_description_data->setMinimumHeight(33); // TODO: Percent
+        label_description_data->setProperty("type", "label-data");
+        label_description_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_description_data->setWordWrap(true);
 
         label_container = new QLabel(widget);
         label_container->setFont(font);
-        label_container->setProperty("type", "title");
-        label_container->setMinimumHeight(33); // TODO: Percent
-        label_container->setText("CONTAINER<hr>");
+        label_container->setProperty("type", "label-title");
+        label_container->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_container->setText("CONTAINER");
 
         label_container_data = new QLabel(widget);
-        label_container_data->setProperty("type", "data");
-        label_container_data->setMinimumHeight(33); // TODO: Percent
+        label_container_data->setProperty("type", "label-data");
+        label_container_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
-        label_size->setProperty("type", "title");
-        label_size->setMinimumHeight(33); // TODO: Percent
-        label_size->setText("SIZE<hr>");
+        label_size->setProperty("type", "label-title");
+        label_size->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_size->setText("SIZE");
 
         label_size_data = new QLabel(widget);
-        label_size_data->setProperty("type", "data");
-        label_size_data->setMinimumHeight(33); // TODO: Percent
+        label_size_data->setProperty("type", "label-data");
+        label_size_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_target = new QLabel(widget);
         label_target->setFont(font);
-        label_target->setProperty("type", "title");
-        label_target->setMinimumHeight(33); // TODO: Percent
-        label_target->setText("TARGET<hr>");
+        label_target->setProperty("type", "label-title");
+        label_target->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_target->setText("TARGET");
 
         label_target_data = new QLabel(widget);
-        label_target_data->setProperty("type", "data");
-        label_target_data->setMinimumHeight(33); // TODO: Percent
+        label_target_data->setProperty("type", "label-data");
+        label_target_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_misc = new QLabel(widget);
         label_misc->setFont(font);
-        label_misc->setProperty("type", "title");
-        label_misc->setMinimumHeight(33); // TODO: Percent
-        label_misc->setText("MISC<hr>");
+        label_misc->setProperty("type", "label-title");
+        label_misc->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_misc->setText("MISC");
 
         label_misc_data = new QLabel(widget);
-        label_misc_data->setProperty("type", "data");
-        label_misc_data->setMinimumHeight(33); // TODO: Percent
+        label_misc_data->setProperty("type", "label-data");
+        label_misc_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
-        label_status->setProperty("type", "title");
-        label_status->setMinimumHeight(33); // TODO: Percent
-        label_status->setText("STATUS<hr>");
+        label_status->setProperty("type", "label-title");
+        label_status->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_status->setText("STATUS");
 
         label_status_data = new QLabel(widget);
         label_status_data->setFont(font);
-        label_status_data->setProperty("type", "data-light");
-        label_status_data->setMinimumHeight(33); // TODO: Percent
+        label_status_data->setProperty("type", "label-data");
+        label_status_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_network = new QLabel(widget);
         label_network->setFont(font);
-        label_network->setProperty("type", "title");
-        label_network->setMinimumHeight(33); // TODO: Percent
-        label_network->setText("NETWORK<hr>");
+        label_network->setProperty("type", "label-title");
+        label_network->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_network->setText("NETWORK");
 
         label_network_data = new QLabel(widget);
         label_network_data->setFont(font);
-        label_network_data->setProperty("type", "data-light");
+        label_network_data->setProperty("type", "label-data");
+        label_network_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         layout_labels = new QVBoxLayout;
         layout_labels->setSpacing(0);
@@ -214,58 +222,70 @@ public:
 
         button_pull = new QPushButton(widget);
         button_pull->setFont(font);
-        button_pull->setMinimumHeight(30); // TODO: Percent
+        button_pull->setProperty("type", "button-pull");
+        button_pull->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_pull->setFlat(true);
         button_pull->setText("PULL");
         button_pull->setDisabled(true);
 
         button_start = new QPushButton(widget);
         button_start->setFont(font);
-        button_start->setMinimumHeight(30); // TODO: Percent
+        button_start->setProperty("type", "button-start");
+        button_start->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_start->setFlat(true);
         button_start->setText("START");
         button_start->setDisabled(true);
 
         button_stop = new QPushButton(widget);
         button_stop->setFont(font);
-        button_stop->setMinimumHeight(30); // TODO: Percent
+        button_stop->setProperty("type", "button-stop");
+        button_stop->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_stop->setFlat(true);
         button_stop->setText("STOP");
         button_stop->setDisabled(true);
 
         button_delete = new QPushButton(widget);
         button_delete->setFont(font);
-        button_delete->setMinimumHeight(30); // TODO: Percent
+        button_delete->setProperty("type", "button-delete");
+        button_delete->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_delete->setFlat(true);
         button_delete->setText("DELETE");
         button_delete->setDisabled(true);
 
         layout_buttons = new QHBoxLayout;
-        layout_buttons->setSpacing(1);
+        layout_buttons->setSpacing(2);
         layout_buttons->setMargin(0);
+        layout_buttons->setAlignment(Qt::AlignLeft);
         layout_buttons->addWidget(button_pull);
         layout_buttons->addWidget(button_start);
         layout_buttons->addWidget(button_stop);
         layout_buttons->addWidget(button_delete);
 
         edit_output = new QPlainTextEdit(widget);
-        edit_output->setProperty("type", "data");
         edit_output->setReadOnly(true);
+        edit_output->setWordWrapMode(QTextOption::WordWrap);
         edit_output->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         edit_output->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        layout = new QVBoxLayout;
+        layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(0);
         layout->addWidget(combo_cve);
-        layout->addSpacing(30);// TODO: Percent
+        layout->addSpacing(int(sh / 30.8));
         layout->addLayout(layout_labels);
-        layout->addSpacing(30);// TODO: Percent
+        layout->addSpacing(sh / 108);
         layout->addLayout(layout_buttons);
-        layout->addSpacing(5);// TODO: Percent
+        layout->addSpacing(2);
         layout->addWidget(edit_output);
 
         widget->setLayout(layout);
+    }
+
+    void set_property(QLabel *label, QString property)
+    {
+        label->setProperty("type", property);
+        label->style()->unpolish(label);
+        label->style()->polish(label);
     }
 };
 
