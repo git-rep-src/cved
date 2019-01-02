@@ -8,8 +8,6 @@ Vulnerable docker containers manager.
 
 You need add your user to docker group and start docker daemon before run cved.
 
-### ADD USER TO DOCKER GROUP
-
 ```shell
 # Create the docker group if it doesn't already exist.
 sudo groupadd docker
