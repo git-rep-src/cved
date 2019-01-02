@@ -2,7 +2,7 @@
 
 Vulnerable docker containers manager.
 
-![alt tag](https://i.ibb.co/wRGQFk8/cved.png)
+![alt tag](https://i.ibb.co/kJxDWpb/cved.png)
 
 ## REQUISITES
 
