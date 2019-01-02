@@ -1,6 +1,6 @@
 # CVED
 
-Vulnerable docker container manager.
+Vulnerable docker containers manager.
 
 ![alt tag](https://i.ibb.co/wRGQFk8/cved.png)
 
@@ -20,8 +20,6 @@ sudo usermod -aG docker $USER
 # Log out and log back in so that your group membership is re-evaluated.
 ```
 ## INSTALLATION
-
-### BUILD
 
 ```shell
 qt >= 5.x
