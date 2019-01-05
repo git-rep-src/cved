@@ -1,8 +1,8 @@
 # CVED
 
-Vulnerable docker containers manager
+A tool to manage vulnerable docker containers
 
-![alt tag](https://i.ibb.co/7QYGvMR/cved.png)
+![cved-image](https://i.ibb.co/7QYGvMR/cved.png)
 
 ## INSTALLATION
 
