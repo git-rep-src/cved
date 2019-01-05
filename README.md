@@ -6,21 +6,19 @@ Vulnerable docker containers manager.
 
 ## INSTALLATION
 
-* Dependencies
-
 ```shell
 qt >= 5.x
 docker
 git
 ```
-* Build
-
 ```shell
 qmake
 make
 sudo make install
 ```
 ## USAGE
+
+Before run cved:
 
 * Add user to docker group
 
@@ -36,17 +34,9 @@ sudo usermod -aG docker $USER
 * Start docker
 
 ```shell
-# systemctl 
+# Systemctl 
 sudo systemctl start docker
 
-# service
+# Service
 sudo service docker start
-```
-* Start cved
-
-```shell 
-cved
-
-# No check database updates
-cved --no-update
 ```
