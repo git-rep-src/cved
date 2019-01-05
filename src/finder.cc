@@ -38,7 +38,8 @@ void Finder::get_data(const QString &name, bool is_combo)
         if (is_combo) {
             query.prepare("SELECT name FROM data ORDER BY name DESC");
         } else {
-            query.prepare("SELECT description, container, size, target, misc, network, options FROM data WHERE name=:name");
+            query.prepare("SELECT description, author, source, size, target, misc, network, options "
+                          "FROM data WHERE name=:name");
             query.bindValue(":name", name);
         }
         if (query.exec()) {
@@ -53,6 +54,7 @@ void Finder::get_data(const QString &name, bool is_combo)
                     data.append(query.value(4).toString());
                     data.append(query.value(5).toString());
                     data.append(query.value(6).toString());
+                    data.append(query.value(7).toString());
                 }
             }
             if (data.size() != 0) {
