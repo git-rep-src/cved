@@ -2,11 +2,11 @@
 
 Vulnerable docker containers manager.
 
-![alt tag](https://i.ibb.co/kJxDWpb/cved.png)
+![alt tag](https://i.ibb.co/7QYGvMR/cved.png)
 
 ## REQUISITES
 
-You need add your user to docker group and start docker daemon before run cved.
+* Add user to docker group
 
 ```shell
 # Create the docker group if it doesn't already exist.
@@ -16,6 +16,15 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 
 # Log out and log back in so that your group membership is re-evaluated.
+```
+* Start docker daemon
+
+```shell
+# systemctl 
+sudo systemctl start docker
+
+# service
+sudo service docker start
 ```
 ## INSTALLATION
 
@@ -29,3 +38,4 @@ qmake
 make
 sudo make install
 ```
+Code and docker containers are welcome.
