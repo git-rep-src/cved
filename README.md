@@ -4,7 +4,7 @@ Vulnerable docker containers manager.
 
 ![alt tag](https://i.ibb.co/7QYGvMR/cved.png)
 
-## INSTALLATION
+## BUILD
 
 * Dependencies
 
@@ -13,7 +13,7 @@ qt >= 5.x
 docker
 git
 ```
-* Build
+* Installation
 
 ```shell
 qmake
@@ -22,7 +22,7 @@ sudo make install
 ```
 ## USAGE
 
-Before run cved:
+### Before run cved
 
 * Add user to docker group
 
@@ -35,7 +35,7 @@ sudo usermod -aG docker $USER
 
 # Log out and log back in so that your group membership is re-evaluated
 ```
-* Start docker daemon
+* Start docker
 
 ```shell
 # systemctl 
