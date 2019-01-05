@@ -1,6 +1,6 @@
 # CVED
 
-Vulnerable docker containers manager.
+Vulnerable docker containers manager
 
 ![alt tag](https://i.ibb.co/7QYGvMR/cved.png)
 
