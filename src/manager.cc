@@ -24,15 +24,15 @@ Manager::Manager(QObject *parent) :
     if (finder->open_db()) {
         finder->get_data("", true);
     } else {
-        ui->combo_cve->setProperty("type", "combo-failed");
-        ui->combo_cve->style()->unpolish(ui->combo_cve);
-        ui->combo_cve->style()->polish(ui->combo_cve);
-        ui->combo_cve->setCurrentText("DATABASE ERROR");
-        ui->combo_cve->setDisabled(true);
+        ui->combo_name->setProperty("type", "combo-fail");
+        ui->combo_name->style()->unpolish(ui->combo_name);
+        ui->combo_name->style()->polish(ui->combo_name);
+        ui->combo_name->setCurrentText("DATABASE ERROR");
+        ui->combo_name->setDisabled(true);
     }
 
-    connect(ui->combo_cve, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentTextChanged), [&] {
-        name = ui->combo_cve->currentText().toLower();
+    connect(ui->combo_name, static_cast<void(QComboBox::*)(const QString&)>(&QComboBox::currentTextChanged), [&] {
+        name = ui->combo_name->currentText().toLower();
         finder->get_data(name, false);
     });
 }
@@ -52,14 +52,14 @@ void Manager::set_combo(const QStringList &data)
 
     name = data.at(0);
 
-    for (int i = 0; i < ui->combo_cve->count(); i++)
-        ui->combo_cve->removeItem(i);
+    for (int i = 0; i < ui->combo_name->count(); i++)
+        ui->combo_name->removeItem(i);
     for (int i = 0; i < data.size(); i++) {
-        ui->combo_cve->addItem(data.at(i).toUpper());
-        ui->combo_cve->model()->setData(ui->combo_cve->model()->index(i, 0), QSize(0, int(sh / 38.5)), Qt::SizeHintRole);
-        ui->combo_cve->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
+        ui->combo_name->addItem(data.at(i).toUpper());
+        ui->combo_name->model()->setData(ui->combo_name->model()->index(i, 0), QSize(0, int(sh / 38.5)), Qt::SizeHintRole);
+        ui->combo_name->setItemData(i, Qt::AlignCenter, Qt::TextAlignmentRole);
     }
-    ui->combo_cve->setCurrentIndex(0);
+    ui->combo_name->setCurrentIndex(0);
 
     finder->get_data(name, false);
 }
@@ -67,13 +67,14 @@ void Manager::set_combo(const QStringList &data)
 void Manager::set_data(const QStringList &data)
 {
     ui->label_description_data->setText(data.at(0));
-    ui->label_container_data->setText(data.at(1));
-    ui->label_size_data->setText(data.at(2));
-    ui->label_target_data->setText(data.at(3));
-    ui->label_misc_data->setText(data.at(4));
+    ui->label_author_data->setText(data.at(1));
+    ui->label_source_data->setText(data.at(2));
+    ui->label_size_data->setText(data.at(3));
+    ui->label_target_data->setText(data.at(4));
+    ui->label_misc_data->setText(data.at(5));
 
-    network = data.at(5);
-    options = data.at(6);
+    network = data.at(6);
+    options = data.at(7);
 
     set_status();
 }
@@ -116,7 +117,7 @@ void Manager::docker_pull()
         ui->edit_output->appendPlainText(process->readAllStandardOutput());
     });
     connect(process, &QProcess::readyReadStandardError, [&] {
-        ui->edit_output->appendHtml("<span style=color:#851111>" + process->readAllStandardError() + "</span>");
+        ui->edit_output->appendHtml("<span style=color:#821e1e>" + process->readAllStandardError() + "</span>");
     });
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [=] (int exit_code) {
@@ -127,17 +128,17 @@ void Manager::docker_pull()
             ui->button_start->setEnabled(true);
         } else {
             if (is_pull_aborted) {
-                ui->set_property(ui->label_status_data, "label-data-failed");
+                ui->set_property(ui->label_status_data, "label-data-fail");
                 ui->label_status_data->setText("ABORTED");
                 is_pull_aborted = false;
             } else {
-                ui->set_property(ui->label_status_data, "label-data-failed");
-                ui->label_status_data->setText("FAILED");
+                ui->set_property(ui->label_status_data, "label-data-fail");
+                ui->label_status_data->setText("FAIL");
             }
             ui->button_pull->setEnabled(true);
             ui->button_delete->setDisabled(true);
         }
-        ui->combo_cve->setEnabled(true);
+        ui->combo_name->setEnabled(true);
         ui->button_delete->setText("DELETE");
         is_pulling = false;
         process->deleteLater();
@@ -146,7 +147,7 @@ void Manager::docker_pull()
 
     is_pulling = true;
 
-    ui->combo_cve->setDisabled(true);
+    ui->combo_name->setDisabled(true);
     ui->set_property(ui->label_status_data, "label-data-pulling");
     ui->label_status_data->setText("PULLING <span style=color:white>cved/" + name + "</span>");
     ui->button_pull->setDisabled(true);
@@ -162,7 +163,7 @@ void Manager::docker_start()
         ui->edit_output->appendPlainText(process->readAllStandardOutput());
     });
     connect(process, &QProcess::readyReadStandardError, [&] {
-        ui->edit_output->appendHtml("<span style=color:#851111>" + process->readAllStandardError() + "</span>");
+        ui->edit_output->appendHtml("<span style=color:#821e1e>" + process->readAllStandardError() + "</span>");
     });
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [=] (int exit_code) {
@@ -172,9 +173,9 @@ void Manager::docker_start()
             ui->set_property(ui->label_network_data, "label-data-active");
             ui->label_network_data->setText(network);
         } else {
-            ui->combo_cve->setEnabled(true);
-            ui->set_property(ui->label_status_data, "label-data-failed");
-            ui->label_status_data->setText("FAILED");
+            ui->combo_name->setEnabled(true);
+            ui->set_property(ui->label_status_data, "label-data-fail");
+            ui->label_status_data->setText("FAIL");
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
@@ -183,7 +184,7 @@ void Manager::docker_start()
     });
     process->start("/bin/bash", QStringList() << "-c" << "docker run --rm --detach --name " + name + " " + options + " cved/" + name);
 
-    ui->combo_cve->setDisabled(true);
+    ui->combo_name->setDisabled(true);
     ui->button_start->setDisabled(true);
     ui->button_stop->setEnabled(true);
     ui->button_delete->setDisabled(true);
@@ -197,12 +198,12 @@ void Manager::docker_stop()
         ui->edit_output->appendPlainText(process->readAllStandardOutput());
     });
     connect(process, &QProcess::readyReadStandardError, [&] {
-        ui->edit_output->appendHtml("<span style=color:#851111>" + process->readAllStandardError() + "</span>");
+        ui->edit_output->appendHtml("<span style=color:#821e1e>" + process->readAllStandardError() + "</span>");
     });
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [=] (int exit_code) {
         if (exit_code == 0) {
-            ui->combo_cve->setEnabled(true);
+            ui->combo_name->setEnabled(true);
             ui->set_property(ui->label_status_data, "label-data-stopped");
             ui->label_status_data->setText("STOPPED");
             ui->set_property(ui->label_network_data, "label-data");
@@ -210,8 +211,8 @@ void Manager::docker_stop()
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
         } else {
-            ui->set_property(ui->label_status_data, "label-data-failed");
-            ui->label_status_data->setText("FAILED");
+            ui->set_property(ui->label_status_data, "label-data-fail");
+            ui->label_status_data->setText("FAIL");
         }
         process->deleteLater();
     });
@@ -231,7 +232,7 @@ void Manager::docker_delete()
             ui->edit_output->appendPlainText(process->readAllStandardOutput());
         });
         connect(process, &QProcess::readyReadStandardError, [&] {
-            ui->edit_output->appendHtml("<span style=color:#851111>" + process->readAllStandardError() + "</span>");
+            ui->edit_output->appendHtml("<span style=color:#821e1e>" + process->readAllStandardError() + "</span>");
         });
         connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
                 [=] (int exit_code) {
@@ -242,8 +243,8 @@ void Manager::docker_delete()
                 ui->label_network_data->setText("NULL");
                 ui->button_pull->setEnabled(true);
             } else {
-                ui->set_property(ui->label_status_data, "label-data-failed");
-                ui->label_status_data->setText("FAILED");
+                ui->set_property(ui->label_status_data, "label-data-fail");
+                ui->label_status_data->setText("FAIL");
             }
             process->deleteLater();
         });

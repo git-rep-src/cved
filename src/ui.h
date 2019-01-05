@@ -83,11 +83,12 @@ class Ui_Manager
 {
 public:
     QWidget *widget;
-    QComboBox *combo_cve;
-    QLabel *label_description;
+    QComboBox *combo_name;
     QLabel *label_description_data;
-    QLabel *label_container;
-    QLabel *label_container_data;
+    QLabel *label_author;
+    QLabel *label_author_data;
+    QLabel *label_source;
+    QLabel *label_source_data;
     QLabel *label_size;
     QLabel *label_size_data;
     QLabel *label_target;
@@ -118,37 +119,43 @@ public:
 
         widget = new QWidget;
 
-        combo_cve = new QComboBox(widget);
-        combo_cve->setFont(font);
-        combo_cve->setMinimumHeight(int(sh / 32.7));
-        combo_cve->setEditable(true);
-        combo_cve->setView(new QListView());
-        combo_cve->view()->setFont(font);
-        combo_cve->lineEdit()->setFont(font);
-        combo_cve->lineEdit()->setReadOnly(true);
-        combo_cve->lineEdit()->setAlignment(Qt::AlignCenter);
-        combo_cve->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
-        label_description = new QLabel(widget);
-        label_description->setFont(font);
-        label_description->setProperty("type", "label-title");
-        label_description->setContentsMargins((sw / 147), 0, 0, (sh / 154));
-        label_description->setText("DESCRIPTION");
+        combo_name = new QComboBox(widget);
+        combo_name->setFont(font);
+        combo_name->setMinimumHeight(int(sh / 32.7));
+        combo_name->setEditable(true);
+        combo_name->setView(new QListView());
+        combo_name->view()->setFont(font);
+        combo_name->lineEdit()->setFont(font);
+        combo_name->lineEdit()->setReadOnly(true);
+        combo_name->lineEdit()->setAlignment(Qt::AlignCenter);
+        combo_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
         label_description_data = new QLabel(widget);
-        label_description_data->setProperty("type", "label-data");
-        label_description_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_description_data->setProperty("type", "label-data-description");
+        label_description_data->setMargin(sw / 147);
         label_description_data->setWordWrap(true);
 
-        label_container = new QLabel(widget);
-        label_container->setFont(font);
-        label_container->setProperty("type", "label-title");
-        label_container->setContentsMargins((sw / 147), 0, 0, (sh / 154));
-        label_container->setText("CONTAINER");
+        label_author = new QLabel(widget);
+        label_author->setFont(font);
+        label_author->setProperty("type", "label-title");
+        label_author->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_author->setText("AUTHOR");
 
-        label_container_data = new QLabel(widget);
-        label_container_data->setProperty("type", "label-data");
-        label_container_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_author_data = new QLabel(widget);
+        label_author_data->setProperty("type", "label-data");
+        label_author_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_author_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+        label_source = new QLabel(widget);
+        label_source->setFont(font);
+        label_source->setProperty("type", "label-title");
+        label_source->setContentsMargins((sw / 147), 0, 0, (sh / 154));
+        label_source->setText("SOURCE");
+
+        label_source_data = new QLabel(widget);
+        label_source_data->setProperty("type", "label-data");
+        label_source_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_source_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
@@ -205,10 +212,12 @@ public:
         layout_labels = new QVBoxLayout;
         layout_labels->setSpacing(0);
         layout_labels->setMargin(0);
-        layout_labels->addWidget(label_description);
         layout_labels->addWidget(label_description_data);
-        layout_labels->addWidget(label_container);
-        layout_labels->addWidget(label_container_data);
+        layout_labels->addSpacing(sh / 36);
+        layout_labels->addWidget(label_author);
+        layout_labels->addWidget(label_author_data);
+        layout_labels->addWidget(label_source);
+        layout_labels->addWidget(label_source_data);
         layout_labels->addWidget(label_size);
         layout_labels->addWidget(label_size_data);
         layout_labels->addWidget(label_target);
@@ -270,12 +279,12 @@ public:
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(0);
-        layout->addWidget(combo_cve);
-        layout->addSpacing(int(sh / 30.8));
+        layout->addWidget(combo_name);
+        layout->addSpacing(sh / 216);
         layout->addLayout(layout_labels);
         layout->addSpacing(sh / 108);
         layout->addLayout(layout_buttons);
-        layout->addSpacing(2);
+        layout->addSpacing(sh / 216);
         layout->addWidget(edit_output);
 
         widget->setLayout(layout);
