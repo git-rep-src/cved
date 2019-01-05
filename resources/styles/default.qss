@@ -52,19 +52,19 @@ QListView::item:selected {
     border-color: rgb(255, 255, 255);
 }
 
-QComboBox[type=combo-failed]:disabled {
+QComboBox[type=combo-fail]:disabled {
     color: rgb(255, 255, 255);
-    background-color: rgb(133, 17, 17);
+    background-color: rgb(130, 30, 30);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(133, 17, 17);
+    border-color: rgb(130, 30, 30);
 }
-QComboBox[type=combo-failed]::drop-down:disabled {
+QComboBox[type=combo-fail]::drop-down:disabled {
     color: rgb(60, 60, 60);
-    background-color: rgb(133, 17, 17);
+    background-color: rgb(130, 30, 30);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(133, 17, 17);
+    border-color: rgb(130, 30, 30);
 }
 
 QLabel[type=label-update] {
@@ -80,6 +80,13 @@ QLabel[type=label-title] {
 
 QLabel[type=label-data] {
     color: rgb(170, 170, 170);
+    selection-color: rgb(0, 0, 0);
+    selection-background-color: rgb(255, 255, 255);
+}
+
+QLabel[type=label-data-description] {
+    color: rgb(60, 60, 60);
+    background-color: rgb(25, 25, 25);
 }
 
 QLabel[type=label-data-active] {
@@ -91,15 +98,15 @@ QLabel[type=label-data-pulling] {
 }
 
 QLabel[type=label-data-running] {
-    color: rgb(0, 160, 30);
+    color: rgb(0, 128, 24);
 }
 
 QLabel[type=label-data-stopped] {
-    color: rgb(161, 135, 0);
+    color: rgb(132, 111, 0);
 }
 
-QLabel[type=label-data-failed] {
-    color: rgb(133, 17, 17);
+QLabel[type=label-data-fail] {
+    color: rgb(130, 30, 30);
 }
 
 QPushButton[type=button-pull] {
@@ -119,47 +126,47 @@ QPushButton[type=button-pull]:disabled {
 
 QPushButton[type=button-start] {
     color: rgb(255, 255, 255);
-    background-color: rgb(0, 160, 30);
+    background-color: rgb(0, 128, 24);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(0, 160, 30);
+    border-color: rgb(0, 128, 24);
 }
 QPushButton[type=button-start]:disabled {
-    color: rgb(0, 160, 30);
-    background-color: rgb(0, 160, 30);
+    color: rgb(0, 128, 24);
+    background-color: rgb(0, 128, 24);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(0, 160, 30);
+    border-color: rgb(0, 128, 24);
 }
 
 QPushButton[type=button-stop] {
     color: rgb(255, 255, 255);
-    background-color: rgb(161, 135, 0);
+    background-color: rgb(132, 111, 0);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(161, 135, 0);
+    border-color: rgb(132, 111, 0);
 }
 QPushButton[type=button-stop]:disabled {
-    color: rgb(161, 135, 0);
-    background-color: rgb(161, 135, 0);
+    color: rgb(132, 111, 0);
+    background-color: rgb(132, 111, 0);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(161, 135, 0);
+    border-color: rgb(132, 111, 0);
 }
 
 QPushButton[type=button-delete] {
     color: rgb(255, 255, 255);
-    background-color: rgb(133, 17, 17);
+    background-color: rgb(130, 30, 30);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(133, 17, 17);
+    border-color: rgb(130, 30, 30);
 }
 QPushButton[type=button-delete]:disabled {
-    color: rgb(133, 17, 17);
-    background-color: rgb(133, 17, 17);
+    color: rgb(130, 30, 30);
+    background-color: rgb(130, 30, 30);
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(133, 17, 17);
+    border-color: rgb(130, 30, 30);
 }
 
 QPushButton[type=button-close] {
@@ -170,7 +177,7 @@ QPushButton[type=button-close] {
 
 QPlainTextEdit {
     color: rgb(60, 60, 60);
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(25, 25, 25);
     border: 0px;
     padding-left: 7px;
     padding-top: 10px;
