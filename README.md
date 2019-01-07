@@ -2,7 +2,7 @@
 
 A tool to manage vulnerable docker containers
 
-![cved-image](https://i.ibb.co/7QYGvMR/cved.png)
+![cved-image](https://i.ibb.co/nf3szCW/cved.png)
 
 ## INSTALLATION
 
