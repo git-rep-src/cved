@@ -125,6 +125,7 @@ public:
         combo_name->setEditable(true);
         combo_name->setView(new QListView());
         combo_name->view()->setFont(font);
+        combo_name->view()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         combo_name->lineEdit()->setFont(font);
         combo_name->lineEdit()->setReadOnly(true);
         combo_name->lineEdit()->setAlignment(Qt::AlignCenter);
@@ -186,6 +187,7 @@ public:
         label_misc_data = new QLabel(widget);
         label_misc_data->setProperty("type", "label-data");
         label_misc_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_misc_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
@@ -208,6 +210,7 @@ public:
         label_network_data->setFont(font);
         label_network_data->setProperty("type", "label-data");
         label_network_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
+        label_network_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         layout_labels = new QVBoxLayout;
         layout_labels->setSpacing(0);
@@ -274,7 +277,6 @@ public:
         edit_output->setReadOnly(true);
         edit_output->setWordWrapMode(QTextOption::WordWrap);
         edit_output->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        edit_output->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
