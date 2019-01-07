@@ -81,18 +81,42 @@ void Manager::set_data(const QStringList &data)
 
 void Manager::set_status()
 {
+    const QString buf = "$(docker images | grep " + name +
+                        " &>/dev/null); if [ $? -eq 0 ]; then $(docker ps | grep " + name +
+                        " &>/dev/null); if [ $? -eq 0 ]; then echo RUNNING; else echo STOPPED; fi; else echo NULL; fi";
+    const QString cmd = "echo " + buf.toUtf8().toBase64() + " | base64 -d | /bin/bash";
+
     process = new QProcess(this);
-    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            [=] (int exit_code) {
-        if (exit_code == 0) {
+    connect(process, &QProcess::readyReadStandardOutput, [&] {
+        QString ret = QString::fromUtf8(process->readAllStandardOutput()).remove("\n");
+        if (ret == "STOPPED") {
             ui->set_property(ui->label_status_data, "label-data-stopped");
-            ui->label_status_data->setText("STOPPED");
-            ui->set_property(ui->label_network_data, "label-data");
-            ui->label_network_data->setText(network);
+            ui->label_status_data->setText(ret);
+            if (!network.isEmpty()) {
+                ui->set_property(ui->label_network_data, "label-data");
+                ui->label_network_data->setText(network);
+            } else {
+                ui->set_property(ui->label_network_data, "label-data");
+                ui->label_network_data->setText("NULL");
+            }
             ui->button_pull->setDisabled(true);
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
             ui->button_delete->setEnabled(true);
+        } else if (ret == "RUNNING") {
+            ui->set_property(ui->label_status_data, "label-data-running");
+            ui->label_status_data->setText(ret);
+            if (!network.isEmpty()) {
+                ui->set_property(ui->label_network_data, "label-data-active");
+                ui->label_network_data->setText(network);
+            } else {
+                ui->set_property(ui->label_network_data, "label-data");
+                ui->label_network_data->setText("NULL");
+            }
+            ui->button_pull->setDisabled(true);
+            ui->button_start->setDisabled(true);
+            ui->button_stop->setEnabled(true);
+            ui->button_delete->setDisabled(true);
         } else {
             ui->set_property(ui->label_status_data, "label-data");
             ui->label_status_data->setText("NULL");
@@ -103,12 +127,23 @@ void Manager::set_status()
             ui->button_stop->setDisabled(true);
             ui->button_delete->setDisabled(true);
         }
+    });
+    connect(process, &QProcess::readyReadStandardError, [&] {
+        ui->set_property(ui->label_status_data, "label-data");
+        ui->label_status_data->setText("NULL");
+        ui->set_property(ui->label_network_data, "label-data");
+        ui->label_network_data->setText("NULL");
+        ui->button_pull->setEnabled(true);
+        ui->button_start->setDisabled(true);
+        ui->button_stop->setDisabled(true);
+        ui->button_delete->setDisabled(true);
+    });
+    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [&] {
         ui->edit_output->clear();
         process->deleteLater();
     });
-    process->start("/bin/bash", QStringList() << "-c" << "docker images | grep " + name + " &>/dev/null");
+    process->start("/bin/bash", QStringList() << "-c" << cmd );
 }
-
 
 void Manager::docker_pull()
 {
@@ -124,7 +159,8 @@ void Manager::docker_pull()
         if (exit_code == 0) {
             ui->set_property(ui->label_status_data, "label-data-stopped");
             ui->label_status_data->setText("STOPPED");
-            ui->label_network_data->setText(network);
+            if (!network.isEmpty())
+                ui->label_network_data->setText(network);
             ui->button_start->setEnabled(true);
         } else {
             if (is_pull_aborted) {
@@ -170,8 +206,10 @@ void Manager::docker_start()
         if (exit_code == 0) {
             ui->set_property(ui->label_status_data, "label-data-running");
             ui->label_status_data->setText("RUNNING");
-            ui->set_property(ui->label_network_data, "label-data-active");
-            ui->label_network_data->setText(network);
+            if (!network.isEmpty()) {
+                ui->set_property(ui->label_network_data, "label-data-active");
+                ui->label_network_data->setText(network);
+            }
         } else {
             ui->combo_name->setEnabled(true);
             ui->set_property(ui->label_status_data, "label-data-fail");
