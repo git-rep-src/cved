@@ -6,6 +6,8 @@ QWidget {
 QComboBox {
     color: rgb(255, 255, 255);
     background-color: rgb(33, 33, 33);
+    selection-color: rgb(0, 0, 0);
+    selection-background-color: rgb(255, 255, 255);
     border-width: 1px;
     border-style: solid;
     border-color: rgb(33, 33, 33);
@@ -33,6 +35,11 @@ QComboBox::drop-down:disabled {
 }
 QComboBox::down-arrow {
     image: url(":/icon-combo-arrow");
+    width: 22px;
+    height: 12px;
+}
+QComboBox::down-arrow:disabled {
+    image: url(":/icon-combo-arrow-disabled");
     width: 22px;
     height: 12px;
 }
@@ -91,6 +98,8 @@ QLabel[type=label-data-description] {
 
 QLabel[type=label-data-active] {
     color: rgb(255, 255, 255);
+    selection-color: rgb(0, 0, 0);
+    selection-background-color: rgb(255, 255, 255);
 }
 
 QLabel[type=label-data-pulling] {
@@ -183,4 +192,26 @@ QPlainTextEdit {
     padding-top: 10px;
     padding-right: 7px;
     padding-bottom: 10px;
+}
+
+QScrollBar:vertical {
+    background-color: rgb(24, 24, 24);
+    width: 10px;
+}
+QScrollBar::handle:vertical {
+    background-color: rgb(35, 35, 35);
+    width: 10px;
+}
+QScrollBar::add-line:vertical {
+    height: 0px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+}
+QScrollBar::sub-line:vertical {
+    height: 0px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
 }
