@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file alias="icon-combo-arrow">resources/images/global/icon-combo-arrow.png</file>
+        <file alias="icon-combo-arrow-disabled">resources/images/global/icon-combo-arrow-disabled.png</file>
         <file alias="font">resources/fonts/default.ttf</file>
         <file alias="style">resources/styles/default.qss</file>
     </qresource>
