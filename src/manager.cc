@@ -24,7 +24,7 @@ Manager::Manager(QObject *parent) :
     if (finder->open_db()) {
         finder->get_data("", true);
     } else {
-        ui->combo_name->setProperty("type", "combo-fail");
+        ui->combo_name->setProperty("style", "combo-fail");
         ui->combo_name->style()->unpolish(ui->combo_name);
         ui->combo_name->style()->polish(ui->combo_name);
         ui->combo_name->setCurrentText("DATABASE ERROR");
@@ -90,15 +90,13 @@ void Manager::set_status()
     connect(process, &QProcess::readyReadStandardOutput, [&] {
         QString ret = QString::fromUtf8(process->readAllStandardOutput()).remove("\n");
         if (ret == "STOPPED") {
-            ui->set_property(ui->label_status_data, "label-data-stopped");
+            ui->set_property(ui->label_status_data, "label-data");
             ui->label_status_data->setText(ret);
-            if (!network.isEmpty()) {
-                ui->set_property(ui->label_network_data, "label-data");
+            ui->set_property(ui->label_network_data, "label-data");
+            if (!network.isEmpty())
                 ui->label_network_data->setText(network);
-            } else {
-                ui->set_property(ui->label_network_data, "label-data");
+            else
                 ui->label_network_data->setText("NULL");
-            }
             ui->button_pull->setDisabled(true);
             ui->button_start->setEnabled(true);
             ui->button_stop->setDisabled(true);
@@ -157,18 +155,17 @@ void Manager::docker_pull()
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [=] (int exit_code) {
         if (exit_code == 0) {
-            ui->set_property(ui->label_status_data, "label-data-stopped");
+            ui->set_property(ui->label_status_data, "label-data");
             ui->label_status_data->setText("STOPPED");
             if (!network.isEmpty())
                 ui->label_network_data->setText(network);
             ui->button_start->setEnabled(true);
         } else {
+            ui->set_property(ui->label_status_data, "label-data-fail");
             if (is_pull_aborted) {
-                ui->set_property(ui->label_status_data, "label-data-fail");
                 ui->label_status_data->setText("ABORTED");
                 is_pull_aborted = false;
             } else {
-                ui->set_property(ui->label_status_data, "label-data-fail");
                 ui->label_status_data->setText("FAIL");
             }
             ui->button_pull->setEnabled(true);
@@ -242,7 +239,6 @@ void Manager::docker_stop()
             [=] (int exit_code) {
         if (exit_code == 0) {
             ui->combo_name->setEnabled(true);
-            ui->set_property(ui->label_status_data, "label-data-stopped");
             ui->label_status_data->setText("STOPPED");
             ui->set_property(ui->label_network_data, "label-data");
             ui->button_start->setEnabled(true);
@@ -256,6 +252,8 @@ void Manager::docker_stop()
     });
     process->start("/bin/bash", QStringList() << "-c" << "docker stop " + name);
 
+    ui->set_property(ui->label_status_data, "label-data");
+    ui->label_status_data->setText("STOPPING...");
     ui->edit_output->clear();
 }
 
