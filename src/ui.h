@@ -33,7 +33,7 @@ public:
         widget->setWindowFlags(Qt::CustomizeWindowHint);
         
         button_close = new QPushButton(widget);
-        button_close->setProperty("type", "button-close");
+        button_close->setProperty("style", "button-close");
         button_close->setGeometry((int(sw / 1.2) - (sw / 192)), 0, (sw / 192), (sh / 108));
         button_close->setFlat(true);
         button_close->setText("x");
@@ -66,7 +66,7 @@ public:
 
         label_message = new QLabel(widget);
         label_message->setFont(font);
-        label_message->setProperty("type", "label-update");
+        label_message->setProperty("style", "label-data-active");
         label_message->setText("UPDATING DATABASE");
 
         layout = new QVBoxLayout(widget);
@@ -132,83 +132,83 @@ public:
         combo_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
         label_description_data = new QLabel(widget);
-        label_description_data->setProperty("type", "label-data-description");
+        label_description_data->setProperty("style", "label-data-description");
         label_description_data->setMargin(sw / 147);
         label_description_data->setWordWrap(true);
 
         label_author = new QLabel(widget);
         label_author->setFont(font);
-        label_author->setProperty("type", "label-title");
+        label_author->setProperty("style", "label-title");
         label_author->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_author->setText("AUTHOR");
 
         label_author_data = new QLabel(widget);
-        label_author_data->setProperty("type", "label-data");
+        label_author_data->setProperty("style", "label-data");
         label_author_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_author_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         label_source = new QLabel(widget);
         label_source->setFont(font);
-        label_source->setProperty("type", "label-title");
+        label_source->setProperty("style", "label-title");
         label_source->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_source->setText("SOURCE");
 
         label_source_data = new QLabel(widget);
-        label_source_data->setProperty("type", "label-data");
+        label_source_data->setProperty("style", "label-data");
         label_source_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_source_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         label_size = new QLabel(widget);
         label_size->setFont(font);
-        label_size->setProperty("type", "label-title");
+        label_size->setProperty("style", "label-title");
         label_size->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_size->setText("SIZE");
 
         label_size_data = new QLabel(widget);
-        label_size_data->setProperty("type", "label-data");
+        label_size_data->setProperty("style", "label-data");
         label_size_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_target = new QLabel(widget);
         label_target->setFont(font);
-        label_target->setProperty("type", "label-title");
+        label_target->setProperty("style", "label-title");
         label_target->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_target->setText("TARGET");
 
         label_target_data = new QLabel(widget);
-        label_target_data->setProperty("type", "label-data");
+        label_target_data->setProperty("style", "label-data");
         label_target_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_misc = new QLabel(widget);
         label_misc->setFont(font);
-        label_misc->setProperty("type", "label-title");
+        label_misc->setProperty("style", "label-title");
         label_misc->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_misc->setText("MISC");
 
         label_misc_data = new QLabel(widget);
-        label_misc_data->setProperty("type", "label-data");
+        label_misc_data->setProperty("style", "label-data");
         label_misc_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_misc_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
-        label_status->setProperty("type", "label-title");
+        label_status->setProperty("style", "label-title");
         label_status->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_status->setText("STATUS");
 
         label_status_data = new QLabel(widget);
         label_status_data->setFont(font);
-        label_status_data->setProperty("type", "label-data");
+        label_status_data->setProperty("style", "label-data");
         label_status_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
 
         label_network = new QLabel(widget);
         label_network->setFont(font);
-        label_network->setProperty("type", "label-title");
+        label_network->setProperty("style", "label-title");
         label_network->setContentsMargins((sw / 147), 0, 0, (sh / 154));
         label_network->setText("NETWORK");
 
         label_network_data = new QLabel(widget);
         label_network_data->setFont(font);
-        label_network_data->setProperty("type", "label-data");
+        label_network_data->setProperty("style", "label-data");
         label_network_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_network_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
@@ -234,7 +234,7 @@ public:
 
         button_pull = new QPushButton(widget);
         button_pull->setFont(font);
-        button_pull->setProperty("type", "button-pull");
+        button_pull->setProperty("style", "button-pull");
         button_pull->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_pull->setFlat(true);
         button_pull->setText("PULL");
@@ -242,7 +242,7 @@ public:
 
         button_start = new QPushButton(widget);
         button_start->setFont(font);
-        button_start->setProperty("type", "button-start");
+        button_start->setProperty("style", "button-start");
         button_start->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_start->setFlat(true);
         button_start->setText("START");
@@ -250,7 +250,7 @@ public:
 
         button_stop = new QPushButton(widget);
         button_stop->setFont(font);
-        button_stop->setProperty("type", "button-stop");
+        button_stop->setProperty("style", "button-stop");
         button_stop->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_stop->setFlat(true);
         button_stop->setText("STOP");
@@ -258,7 +258,7 @@ public:
 
         button_delete = new QPushButton(widget);
         button_delete->setFont(font);
-        button_delete->setProperty("type", "button-delete");
+        button_delete->setProperty("style", "button-delete");
         button_delete->setMinimumSize(QSize(int(sw / 19.2), (sh / 45)));
         button_delete->setFlat(true);
         button_delete->setText("DELETE");
@@ -294,7 +294,7 @@ public:
 
     void set_property(QLabel *label, QString property)
     {
-        label->setProperty("type", property);
+        label->setProperty("style", property);
         label->style()->unpolish(label);
         label->style()->polish(label);
     }
