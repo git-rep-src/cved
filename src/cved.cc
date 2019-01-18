@@ -33,7 +33,7 @@ Cved::Cved() :
 
 Cved::~Cved()
 {
-    if (update)
+    //if (update)
         delete update;
     if (manager)
         delete manager;
