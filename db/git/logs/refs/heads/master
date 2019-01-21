@@ -1,0 +1,17 @@
+0000000000000000000000000000000000000000 6273f6e8a278b074a2b75460dbfe2c80091f9013 git-rep <git-rep@protonmail.com> 1545337226 -0300	commit (initial): Add db v1
+6273f6e8a278b074a2b75460dbfe2c80091f9013 21165a99ea1af3151a6e5d06d03b0bbe32babc6f git-rep <git-rep@protonmail.com> 1545406618 -0300	commit: Delete old db v1
+21165a99ea1af3151a6e5d06d03b0bbe32babc6f e94374289d61a5658e9455903c59d01a5264e067 git-rep <git-rep@protonmail.com> 1545406653 -0300	commit: Add new db v1
+e94374289d61a5658e9455903c59d01a5264e067 fe0fe8c8b8dfc6bcf15fb6a756370f52bd9bdff8 git-rep <git-rep@protonmail.com> 1545529136 -0300	commit: Add empty db
+fe0fe8c8b8dfc6bcf15fb6a756370f52bd9bdff8 5a8a128f5b3b3e3ee693be33b75d4981c13a722e git-rep <git-rep@protonmail.com> 1545529209 -0300	commit: Add CVE-2018-11776
+5a8a128f5b3b3e3ee693be33b75d4981c13a722e 1d0cd154345f612c8bd63cc16d952231d915817c git-rep <git-rep@protonmail.com> 1545608463 -0300	commit: Add misc field
+1d0cd154345f612c8bd63cc16d952231d915817c 37675c165b3382643bebde7a0c52232b25f50c3b git-rep <git-rep@protonmail.com> 1546032204 -0300	commit: Update cve-2018-11776 data and add cve-2014-0160, cve-2014-6271, cve-2016-6515, cve-2016-7434.
+37675c165b3382643bebde7a0c52232b25f50c3b 65fcde7d8978512f648613bad00fbe95d747932c git-rep <git-rep@protonmail.com> 1546109746 -0300	commit: Add cve-2015-8103
+65fcde7d8978512f648613bad00fbe95d747932c 012a8da75337c6bb77f0fb748ffdebbfab69b39d git-rep <git-rep@protonmail.com> 1546122791 -0300	commit: Update container field
+012a8da75337c6bb77f0fb748ffdebbfab69b39d 4a529231471f0b346a1140e7c32574b406ef6a98 git-rep <git-rep@protonmail.com> 1546449494 -0300	commit: Update container fields
+4a529231471f0b346a1140e7c32574b406ef6a98 5351b94f101293776affacbaac12b39c507b64e9 git-rep <git-rep@protonmail.com> 1546461477 -0300	commit: Update container fields
+5351b94f101293776affacbaac12b39c507b64e9 46bd61d250646860340958232c5c7a3e1ca1a6db git-rep <git-rep@protonmail.com> 1546703012 -0300	commit: Add author field
+46bd61d250646860340958232c5c7a3e1ca1a6db 1371bf139a3661dbf5fac735a2f65068b2e0b179 git-rep <git-rep@protonmail.com> 1546715869 -0300	commit: Update source fields
+1371bf139a3661dbf5fac735a2f65068b2e0b179 c718af2bb07fd41110efbdc0b1d38f04289d8d9c git-rep <git-rep@protonmail.com> 1546899486 -0300	commit: Update source fields and add cve-2010-0426 cve-2015-1427 cve-2015-3306 cve-2015-5602 cve-2017-7494 cve-2018-7600
+c718af2bb07fd41110efbdc0b1d38f04289d8d9c 61355b393390ab44433f95e748d732d5b1477cf2 git-rep <git-rep@protonmail.com> 1547403858 -0300	commit: Add cve-2016-8869 cve-2016-8870 cve-2017-1000486 cve-2017-10271 cve-2017-8917 cve-2018-15473 cve-2018-16509 cve-2018-9206 cve-2018-9207 cve-2018-9208
+61355b393390ab44433f95e748d732d5b1477cf2 7a0acc14382b4e364fa08a14b1903c124c0874cd git-rep <git-rep@protonmail.com> 1547833906 -0300	commit: Add cve-2016-10033 cve-2017-1000117 cve-2017-12615 cve-2017-4971 cve-2017-7529 cve-2017-8046 cve-2018-1273
+7a0acc14382b4e364fa08a14b1903c124c0874cd 06e1f34249ecbf20fc9d3408a5006e971899c83e git-rep <git-rep@protonmail.com> 1548098203 -0300	commit: Add cve-2018-15961
