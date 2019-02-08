@@ -29,18 +29,21 @@ bool Finder::open_db()
     return true;
 }
 
-void Finder::get_data(const QString &name, bool is_combo)
+void Finder::get_data(const QString &str, bool is_combo)
 {
     QStringList data;
 
     if (db.open()) {
         QSqlQuery query;
         if (is_combo) {
-            query.prepare("SELECT name FROM data ORDER BY name DESC");
+            if (!str.isEmpty())
+                query.prepare("SELECT name FROM data WHERE target LIKE '%" + str + "%' ORDER BY name DESC");
+            else
+                query.prepare("SELECT name FROM data ORDER BY name DESC");
         } else {
             query.prepare("SELECT description, author, source, size, target, misc, network, options "
                           "FROM data WHERE name=:name");
-            query.bindValue(":name", name);
+            query.bindValue(":name", str);
         }
         if (query.exec()) {
             while (query.next()) {
@@ -62,6 +65,10 @@ void Finder::get_data(const QString &name, bool is_combo)
                     emit signal_send_combo(data);
                 else
                     emit signal_send_data(data);
+            } else {
+                if ((is_combo) && (!str.isEmpty())) {
+                    emit signal_empty_data();
+                }
             }
         }
         db.close();

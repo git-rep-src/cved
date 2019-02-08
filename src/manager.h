@@ -28,6 +28,7 @@ private:
 
     QProcess *process;
 
+    bool is_combo_blocked;
     bool is_pulling;
     bool is_pull_aborted;
 

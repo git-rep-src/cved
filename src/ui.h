@@ -2,11 +2,11 @@
 #define UI_H
 
 #include <QWidget>
-#include <QComboBox>
-#include <QListView>
 #include <QLabel>
 #include <QLineEdit>
+#include <QComboBox>
 #include <QPlainTextEdit>
+#include <QListView>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -84,6 +84,7 @@ class Ui_Manager
 public:
     QWidget *widget;
     QComboBox *combo_name;
+    QLineEdit *edit_target;
     QLabel *label_description_data;
     QLabel *label_author;
     QLabel *label_author_data;
@@ -103,7 +104,8 @@ public:
     QPushButton *button_start;
     QPushButton *button_stop;
     QPushButton *button_delete;
-    QPlainTextEdit *edit_output;
+    QPlainTextEdit *plain_output;
+    QHBoxLayout *layout_search;
     QVBoxLayout *layout_labels;
     QHBoxLayout *layout_buttons;
     QVBoxLayout *layout;
@@ -115,6 +117,7 @@ public:
 
         QFont font(":/font");
         font.setPointSize(sw / 240);
+        font.setCapitalization(QFont::AllUppercase);
         font.setBold(true);
 
         widget = new QWidget;
@@ -129,7 +132,21 @@ public:
         combo_name->lineEdit()->setFont(font);
         combo_name->lineEdit()->setReadOnly(true);
         combo_name->lineEdit()->setAlignment(Qt::AlignCenter);
-        combo_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        combo_name->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+        edit_target = new QLineEdit(widget);
+        edit_target->setFont(font);
+        edit_target->setProperty("style", "edit-target");
+        edit_target->setMaximumWidth(int(sw / 4.57));
+        edit_target->setMinimumHeight(int(sh / 32.7));
+        edit_target->setPlaceholderText("SOFTWARE NAME");
+
+        layout_search = new QHBoxLayout;
+        layout_search->setSpacing(2);
+        layout_search->setMargin(0);
+        layout_search->setAlignment(Qt::AlignHCenter);
+        layout_search->addWidget(combo_name);
+        layout_search->addWidget(edit_target);
 
         label_description_data = new QLabel(widget);
         label_description_data->setProperty("style", "label-data-description");
@@ -188,6 +205,8 @@ public:
         label_misc_data->setProperty("style", "label-data");
         label_misc_data->setContentsMargins((sw / 147), (sh / 216), (sw / 147), (sh / 51));
         label_misc_data->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+        font.setCapitalization(QFont::MixedCase);
 
         label_status = new QLabel(widget);
         label_status->setFont(font);
@@ -273,30 +292,36 @@ public:
         layout_buttons->addWidget(button_stop);
         layout_buttons->addWidget(button_delete);
 
-        edit_output = new QPlainTextEdit(widget);
-        edit_output->setReadOnly(true);
-        edit_output->setWordWrapMode(QTextOption::WordWrap);
-        edit_output->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        plain_output = new QPlainTextEdit(widget);
+        plain_output->setReadOnly(true);
+        plain_output->setWordWrapMode(QTextOption::WordWrap);
+        plain_output->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         layout = new QVBoxLayout(widget);
         layout->setSpacing(0);
         layout->setMargin(0);
-        layout->addWidget(combo_name);
+        layout->addLayout(layout_search);
         layout->addSpacing(sh / 216);
         layout->addLayout(layout_labels);
         layout->addSpacing(sh / 108);
         layout->addLayout(layout_buttons);
         layout->addSpacing(sh / 216);
-        layout->addWidget(edit_output);
+        layout->addWidget(plain_output);
 
         widget->setLayout(layout);
     }
 
-    void set_property(QLabel *label, QString property)
+    void set_property(QLineEdit *edit = NULL, QLabel *label = NULL, QString property = "")
     {
-        label->setProperty("style", property);
-        label->style()->unpolish(label);
-        label->style()->polish(label);
+        if (edit) {
+            edit->setProperty("style", property);
+            edit->style()->unpolish(edit);
+            edit->style()->polish(edit);
+        } else {
+            label->setProperty("style", property);
+            label->style()->unpolish(label);
+            label->style()->polish(label);
+        }
     }
 };
 
