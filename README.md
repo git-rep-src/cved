@@ -35,7 +35,7 @@ cved
 ```
 ## CONTRIBUTION
 
-Code: https://gitlab.com/git-rep/cved
+Code: https://github.com/git-rep-src/cved
 
 Docker: https://github.com/cved-sources/
 
